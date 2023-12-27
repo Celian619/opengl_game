@@ -1,0 +1,127 @@
+[
+{
+  "directory": "/home/celian/Desktop/opengl/final_project/build",
+  "command": "/usr/bin/gcc -DPATH_TO_OBJECTS=\\\"/home/celian/Desktop/opengl/final_project/objects\\\" -DPATH_TO_SHADERS=\\\"/home/celian/Desktop/opengl/final_project/shaders\\\" -DPATH_TO_TEXTURE=\\\"/home/celian/Desktop/opengl/final_project/textures\\\" -I/home/celian/Desktop/opengl/final_project/3rdParty/glad/include -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/include -I/home/celian/Desktop/opengl/final_project/3rdParty/glm -I/home/celian/Desktop/opengl/final_project/3rdParty/stb -g -o CMakeFiles/glad.dir/3rdParty/glad/src/glad.c.o -c /home/celian/Desktop/opengl/final_project/3rdParty/glad/src/glad.c",
+  "file": "/home/celian/Desktop/opengl/final_project/3rdParty/glad/src/glad.c"
+},
+{
+  "directory": "/home/celian/Desktop/opengl/final_project/build",
+  "command": "/usr/bin/g++ -DPATH_TO_OBJECTS=\\\"/home/celian/Desktop/opengl/final_project/objects\\\" -DPATH_TO_SHADERS=\\\"/home/celian/Desktop/opengl/final_project/shaders\\\" -DPATH_TO_TEXTURE=\\\"/home/celian/Desktop/opengl/final_project/textures\\\" -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/include -I/home/celian/Desktop/opengl/final_project/3rdParty/glad/include -I/home/celian/Desktop/opengl/final_project/3rdParty/glm -I/home/celian/Desktop/opengl/final_project/3rdParty/stb -g -std=gnu++14 -o CMakeFiles/game_main.dir/main.cpp.o -c /home/celian/Desktop/opengl/final_project/main.cpp",
+  "file": "/home/celian/Desktop/opengl/final_project/main.cpp"
+},
+{
+  "directory": "/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/gcc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/include -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src -I/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src -g -fPIC -Wall -std=c99 -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/context.c.o -c /home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/context.c",
+  "file": "/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/context.c"
+},
+{
+  "directory": "/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/gcc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/include -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src -I/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src -g -fPIC -Wall -std=c99 -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/init.c.o -c /home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/init.c",
+  "file": "/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/init.c"
+},
+{
+  "directory": "/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/gcc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/include -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src -I/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src -g -fPIC -Wall -std=c99 -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/input.c.o -c /home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/input.c",
+  "file": "/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/input.c"
+},
+{
+  "directory": "/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/gcc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/include -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src -I/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src -g -fPIC -Wall -std=c99 -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/monitor.c.o -c /home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/monitor.c",
+  "file": "/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/monitor.c"
+},
+{
+  "directory": "/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/gcc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/include -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src -I/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src -g -fPIC -Wall -std=c99 -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/platform.c.o -c /home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/platform.c",
+  "file": "/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/platform.c"
+},
+{
+  "directory": "/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/gcc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/include -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src -I/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src -g -fPIC -Wall -std=c99 -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/vulkan.c.o -c /home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/vulkan.c",
+  "file": "/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/vulkan.c"
+},
+{
+  "directory": "/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/gcc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/include -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src -I/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src -g -fPIC -Wall -std=c99 -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/window.c.o -c /home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/window.c",
+  "file": "/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/window.c"
+},
+{
+  "directory": "/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/gcc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/include -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src -I/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src -g -fPIC -Wall -std=c99 -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/egl_context.c.o -c /home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/egl_context.c",
+  "file": "/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/egl_context.c"
+},
+{
+  "directory": "/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/gcc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/include -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src -I/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src -g -fPIC -Wall -std=c99 -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/osmesa_context.c.o -c /home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/osmesa_context.c",
+  "file": "/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/osmesa_context.c"
+},
+{
+  "directory": "/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/gcc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/include -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src -I/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src -g -fPIC -Wall -std=c99 -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/null_init.c.o -c /home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/null_init.c",
+  "file": "/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/null_init.c"
+},
+{
+  "directory": "/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/gcc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/include -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src -I/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src -g -fPIC -Wall -std=c99 -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/null_monitor.c.o -c /home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/null_monitor.c",
+  "file": "/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/null_monitor.c"
+},
+{
+  "directory": "/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/gcc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/include -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src -I/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src -g -fPIC -Wall -std=c99 -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/null_window.c.o -c /home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/null_window.c",
+  "file": "/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/null_window.c"
+},
+{
+  "directory": "/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/gcc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/include -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src -I/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src -g -fPIC -Wall -std=c99 -Wdeclaration-after-statement -o CMakeFiles/glfw.dir/null_joystick.c.o -c /home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/null_joystick.c",
+  "file": "/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/null_joystick.c"
+},
+{
+  "directory": "/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/gcc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/include -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src -I/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src -g -fPIC -Wall -std=c99 -o CMakeFiles/glfw.dir/posix_module.c.o -c /home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/posix_module.c",
+  "file": "/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/posix_module.c"
+},
+{
+  "directory": "/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/gcc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/include -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src -I/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src -g -fPIC -Wall -std=c99 -o CMakeFiles/glfw.dir/posix_time.c.o -c /home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/posix_time.c",
+  "file": "/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/posix_time.c"
+},
+{
+  "directory": "/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/gcc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/include -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src -I/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src -g -fPIC -Wall -std=c99 -o CMakeFiles/glfw.dir/posix_thread.c.o -c /home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/posix_thread.c",
+  "file": "/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/posix_thread.c"
+},
+{
+  "directory": "/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/gcc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/include -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src -I/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src -g -fPIC -Wall -std=c99 -o CMakeFiles/glfw.dir/x11_init.c.o -c /home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/x11_init.c",
+  "file": "/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/x11_init.c"
+},
+{
+  "directory": "/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/gcc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/include -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src -I/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src -g -fPIC -Wall -std=c99 -o CMakeFiles/glfw.dir/x11_monitor.c.o -c /home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/x11_monitor.c",
+  "file": "/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/x11_monitor.c"
+},
+{
+  "directory": "/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/gcc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/include -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src -I/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src -g -fPIC -Wall -std=c99 -o CMakeFiles/glfw.dir/x11_window.c.o -c /home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/x11_window.c",
+  "file": "/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/x11_window.c"
+},
+{
+  "directory": "/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/gcc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/include -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src -I/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src -g -fPIC -Wall -std=c99 -o CMakeFiles/glfw.dir/xkb_unicode.c.o -c /home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/xkb_unicode.c",
+  "file": "/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/xkb_unicode.c"
+},
+{
+  "directory": "/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/gcc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/include -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src -I/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src -g -fPIC -Wall -std=c99 -o CMakeFiles/glfw.dir/glx_context.c.o -c /home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/glx_context.c",
+  "file": "/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/glx_context.c"
+},
+{
+  "directory": "/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/gcc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/include -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src -I/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src -g -fPIC -Wall -std=c99 -o CMakeFiles/glfw.dir/linux_joystick.c.o -c /home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/linux_joystick.c",
+  "file": "/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/linux_joystick.c"
+},
+{
+  "directory": "/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src",
+  "command": "/usr/bin/gcc -D_DEFAULT_SOURCE -D_GLFW_X11 -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/include -I/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src -I/home/celian/Desktop/opengl/final_project/build/3rdParty/glfw/src -g -fPIC -Wall -std=c99 -o CMakeFiles/glfw.dir/posix_poll.c.o -c /home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/posix_poll.c",
+  "file": "/home/celian/Desktop/opengl/final_project/3rdParty/glfw/src/posix_poll.c"
+}
+]
