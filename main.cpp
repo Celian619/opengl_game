@@ -15,6 +15,7 @@
 #include <map>
 
 #include "camera.h"
+#include "plane.h"
 #include "shader.h"
 #include "object.h"
 #include "utils.h"
@@ -81,7 +82,8 @@ void APIENTRY glDebugOutput(GLenum source,
 }
 #endif
 
-Camera camera(glm::vec3(0.0, 0.0, 0.1));
+Camera camera(glm::vec3(0.0, 2.0, 5.0));
+Plane plane(glm::vec3(0.0, -4, -7));
 
 
 struct Particle {
@@ -159,19 +161,42 @@ int main(int argc, char* argv[])
     std::cout << "Cube map shaders loaded" << std::endl;
 
 	char path[] = PATH_TO_OBJECTS "/jet.obj";
-	Object plane(path);
-	plane.makeObject(shader, false);
+	Object planeObj(path);
+	planeObj.makeObject(shader, false);
 	
 	//Load the cube model and make the model
 	char pathCube[] = PATH_TO_OBJECTS "/cube.obj";
+	//Load the cube model and make the model
+	char pathGround[] = PATH_TO_OBJECTS "/ground.obj";
 
 
 	//reference cube
 	Object cube(pathCube);
 	cube.makeObject(shader);
 
+	glm::mat4 modelCube = glm::mat4(1.0f);
+	modelCube = glm::translate(modelCube, glm::vec3(0.0f, 0.0f, 0.0f));
+	modelCube = glm::scale(modelCube, glm::vec3(1.0f, 1.0f, 1.0f));
+	glm::mat4 inverseModelCube = glm::transpose( glm::inverse(modelCube));
+
+	Object ground(pathGround);
+	ground.makeObject(shader);
+
+	glm::mat4 modelGround = glm::mat4(1.0f);
+	modelGround = glm::translate(modelGround, glm::vec3(0.0f, 0.0f, 0.0f));
+	modelGround = glm::scale(modelGround, glm::vec3(10.0f, 1.0f, 10.0f));
+	glm::mat4 inverseModelGround = glm::transpose( glm::inverse(modelGround));
+
+
 	Object cubeMap(pathCube);
 	cubeMap.makeObject(cubeMapShader);
+
+
+	glm::vec3 light_pos = glm::vec3(0.0f, 0.1f, 0.0f);
+	glm::mat4 modelAvion = glm::mat4(1.0f);
+	modelAvion = glm::rotate(modelAvion, (float) glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	modelAvion = glm::scale(modelAvion, glm::vec3(1.0f, 1.0f, 1.0f));
+
 
 	double prev = 0;
 	int deltaFrame = 0;
@@ -187,17 +212,6 @@ int main(int argc, char* argv[])
 			std::cout.flush();
 		}
 	};
-
-
-	glm::vec3 light_pos = glm::vec3(0.0f, 0.1f, 0.0f);
-	glm::mat4 modelAvion = glm::mat4(1.0f);
-	modelAvion = glm::translate(modelAvion, glm::vec3(0.0f, -2.0f, 7.0f));
-	modelAvion = glm::scale(modelAvion, glm::vec3(1.0f, 1.0f, 1.0f));
-
-	glm::mat4 modelCube = glm::mat4(1.0f);
-	modelCube = glm::translate(modelCube, glm::vec3(0.0f, 0.0f, 0.0f));
-	modelCube = glm::scale(modelCube, glm::vec3(1.0f, 1.0f, 1.0f));
-	glm::mat4 inverseModelCube = glm::transpose( glm::inverse(modelCube));
 
 	glm::mat4 view = camera.GetViewMatrix();
 	glm::mat4 perspective = camera.GetProjectionMatrix();
@@ -235,12 +249,14 @@ int main(int argc, char* argv[])
     srand(time(NULL));
 
     bool lastFrameDay = true;
-    int timeSlowdown = 2;
+    int timeSlowdown = 20;
 
     double lastTime = glfwGetTime() / timeSlowdown;
 	
 	while (!glfwWindowShouldClose(window)) {
 		processInput(window);
+		plane.updateState();
+		camera.SetPosition(plane.position + glm::vec3(-5.0f, 3.0f, 0.0f));
 		view = camera.GetViewMatrix();
 		glfwPollEvents();
 		double now = glfwGetTime();
@@ -275,21 +291,19 @@ int main(int argc, char* argv[])
 		shader.setMatrix4("itM", inverseModelCube);
 		cube.draw();
 
-		glm::vec3 posPlane = camera.Position + camera.Front * 5.0f;
-		//glm::mat4 currModelAvion = glm::translate(modelAvion, posPlane);
+        shader.setMatrix4("M", modelGround);
+		shader.setMatrix4("itM", inverseModelGround);
+		ground.draw();
 
-		glm::mat4 currModelAvion  = glm::rotate(modelAvion, (float) std::sin(now), glm::vec3(0.0f, 0.0f, 1.0f));
-		//currModelAvion = glm::rotate(currModelAvion, glm::radians(camera.Yaw - 90.0f), glm::vec3(0.0f, -1.0f, 0.0f));
-		glm::mat4 inverseModelAvion = glm::transpose( glm::inverse(currModelAvion));
-		//lastPlanePos = camera.Position + camera.Front;
 
-		shader.setMatrix4("V", glm::lookAt(glm::vec3(0.0,0.0f,0.0f), glm::vec3(0.0f,0.0f,1.0f), glm::vec3(0.0f,1.0f,0.0f)));
-		shader.setMatrix4("P", perspective);
-		shader.setVector3f("u_view_pos", glm::vec3(0.0f,0.0f,0.0f));
+		glm::mat4 planeModelMatrix = plane.getModelMatrix();
+		planeModelMatrix =  planeModelMatrix * modelAvion;
+		std::cout <<   planeModelMatrix[0][0] << ":"<< modelCube[0][0]<<":"<< plane.position[2] << std::endl;
+		glm::mat4 inverseModelAvion = glm::transpose( glm::inverse(planeModelMatrix));
 
-		 shader.setMatrix4("M", currModelAvion);
+		shader.setMatrix4("M", planeModelMatrix);
 		shader.setMatrix4("itM", inverseModelAvion);
-        plane.draw();
+        planeObj.draw();
 
 		glDepthFunc(GL_LEQUAL);
 		//Use the shader for the cube map
@@ -337,18 +351,16 @@ void processInput(GLFWwindow* window) {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
 
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS){//LEFT
-		//camera.ProcessKeyboardMovement(LEFT, 0.1);
+	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+		plane.processKeyboardMovement(LEFT, 0.1);
 
-	}
-		
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		camera.ProcessKeyboardMovement(RIGHT, 0.1);
+		plane.processKeyboardMovement(RIGHT, 0.1);
 
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		camera.ProcessKeyboardMovement(FORWARD, 0.1);
+		plane.processKeyboardMovement(UPWARD, 0.1);
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		camera.ProcessKeyboardMovement(BACKWARD, 0.1);
+		plane.processKeyboardMovement(DOWNWARD, 0.1);
 
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
 		camera.ProcessKeyboardRotation(1, 0.0, 1);

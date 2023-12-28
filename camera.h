@@ -7,13 +7,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-// Defines several possible options for camera movement. Used as abstraction to stay away from window-system specific input methods
-enum Camera_Movement {
-    FORWARD,
-    BACKWARD,
-    LEFT,
-    RIGHT
-};
+
 
 // Default camera values
 const float YAW = -90.0f;
@@ -31,7 +25,6 @@ public:
     glm::vec3 Position;
     glm::vec3 Front;
     glm::vec3 Up;
-    glm::vec3 Right;
     glm::vec3 WorldUp;
     // euler Angles
     float Yaw;
@@ -71,20 +64,10 @@ public:
         return glm::perspective(fov, ratio, near, far);
     }
 
-
-    // processes input received from any keyboard-like input system. Accepts input parameter in the form of camera defined ENUM (to abstract it from windowing systems)
-    void ProcessKeyboardMovement(Camera_Movement direction, float deltaTime)
-    {
-        float velocity = this->MovementSpeed * deltaTime;
-        if (direction == FORWARD)
-            this->Position += this->Front * velocity;
-        if (direction == BACKWARD)
-            this->Position -= this->Front * velocity;
-        if (direction == LEFT)
-            this->Position -= this->Right * velocity;
-        if (direction == RIGHT)
-            this->Position += this->Right * velocity;
+    void SetPosition(glm::vec3 position){
+        this->Position = position;
     }
+
 
     void ProcessKeyboardRotation(float YawRot, float PitchRot, float deltaTime, GLboolean constrainPitch = true)
     {
@@ -136,8 +119,8 @@ private:
         front.z = sin(glm::radians(Yaw)) * cos(glm::radians(Pitch));
         Front = glm::normalize(front);
         // also re-calculate the Right and Up vector
-        Right = glm::normalize(glm::cross(Front, WorldUp));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
-        Up = glm::normalize(glm::cross(Right, Front));
+        glm::vec3 right = glm::normalize(glm::cross(Front, WorldUp));  // normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
+        Up = glm::normalize(glm::cross(right, Front));
     }
 };
 
