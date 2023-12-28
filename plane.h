@@ -50,10 +50,10 @@ public:
             pitch += deltaTime;
             //TODO
         }else if (direction == LEFT){
-            roll += deltaTime;
+            roll += (deltaTime*2);
             //TODO
         }else if (direction == RIGHT){
-            roll -= deltaTime;
+            roll -= (deltaTime*2);
             //TODO
         }
 
@@ -69,6 +69,23 @@ public:
     }
 
     void updateState(){
+
+        if(pitch > 0){
+            pitch = std::max(0.0, pitch-0.05);
+        }else if(pitch < 0){
+            pitch = std::min(0.0, pitch+0.05);
+        }
+
+        if(roll > 0){
+            float delta = std::min(roll, 0.1f);
+            roll -= delta;
+            yaw -= delta;
+        }else if(roll < 0){
+            float delta = std::max(roll, -0.1f);
+            roll -= delta;
+            yaw -= delta;
+        }
+
         this->updateFront();
         this->position += this->front * speed;
     }
@@ -82,10 +99,10 @@ public:
 
     yaw: {{cos(y),0,sin(y)},{0,1,0},{-sin(y),0,cos(y)}}
 
-    pitch * yaw * roll:
-cos(p) cos(y)    | cos(p) sin(r) sin(y) + sin(p) cos(r) | cos(p) cos(r) sin(y) - sin(p) sin(r)
-sin(p) (-cos(y)) | cos(p) cos(r) - sin(p) sin(r) sin(y) | -sin(p) cos(r) sin(y) - cos(p) sin(r)
--sin(y)          | sin(r) cos(y)                        | cos(r) cos(y)
+    pitch * roll * yaw:
+(sin(p) sin(r) sin(y) + cos(p) cos(y) | sin(p) cos(r) | cos(p) sin(y) - sin(p) sin(r) cos(y)
+cos(p) sin(r) sin(y) - sin(p) cos(y) | cos(p) cos(r) | -cos(p) sin(r) cos(y) - sin(p) sin(y)
+-cos(r) sin(y) | sin(r) | cos(r) cos(y))
 
 */
     glm::mat4 getModelMatrix(){
@@ -99,9 +116,9 @@ sin(p) (-cos(y)) | cos(p) cos(r) - sin(p) sin(r) sin(y) | -sin(p) cos(r) sin(y) 
 
 
         float matrixArray[16] = {
-    cosp*cosy,   cosp*sinr*siny + sinp*cosr,   cosp*cosr*siny - sinp*sinr, 0,
-    -sinp*cosy,  cosp*cosr - sinp*sinr*siny,   -sinp*cosr*siny - cosp*sinr, 0,
-    -siny,                                     sinr*cosy, cosr*cosy,        0,
+    sinp*sinr*siny + cosp*cosy,  sinp*cosr ,  cosp*siny - sinp*sinr*cosy , 0,
+    cosp*sinr*siny - sinp*cosy,  cosp*cosr,  -cosp*sinr*cosy - sinp*siny , 0,
+    -cosr*siny, sinr ,           cosr*cosy,        0,
     position.x,           position.y,                            position.z,                           1
 };
 
@@ -126,15 +143,15 @@ private:
         float sinr = sin(glm::radians(roll));
 
         glm::vec3 calcFront;
-        calcFront.x = cosp*cosy;
-        calcFront.y = cosp*sinr*siny + sinp*cosr;
-        calcFront.z = cosp*cosr*siny - sinp*sinr;
+        calcFront.x = sinp*sinr*siny + cosp*cosy;
+        calcFront.y = sinp*cosr;
+        calcFront.z = cosp*siny - sinp*sinr*cosy;
         this->front = glm::normalize(calcFront);
 
         glm::vec3 calcUp;
-        calcUp.x = -sinp*cosy;
-        calcUp.y = cosp*cosr - sinp*sinr*siny;
-        calcUp.z = -sinp*cosr*siny - cosp*sinr;
+        calcUp.x = cosp*sinr*siny - sinp*cosy;
+        calcUp.y = cosp*cosr;
+        calcUp.z = -cosp*sinr*cosy - sinp*siny;
         this->up = glm::normalize(calcUp);
     }
 };

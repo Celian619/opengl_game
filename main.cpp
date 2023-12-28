@@ -83,7 +83,7 @@ void APIENTRY glDebugOutput(GLenum source,
 #endif
 
 Camera camera(glm::vec3(0.0, 2.0, 5.0));
-Plane plane(glm::vec3(0.0, -4, -7));
+Plane plane(glm::vec3(0.0, 4, -7));
 
 
 struct Particle {
@@ -184,7 +184,7 @@ int main(int argc, char* argv[])
 
 	glm::mat4 modelGround = glm::mat4(1.0f);
 	modelGround = glm::translate(modelGround, glm::vec3(0.0f, 0.0f, 0.0f));
-	modelGround = glm::scale(modelGround, glm::vec3(10.0f, 1.0f, 10.0f));
+	modelGround = glm::scale(modelGround, glm::vec3(1.0f, 1.0f, 1.0f));
 	glm::mat4 inverseModelGround = glm::transpose( glm::inverse(modelGround));
 
 
@@ -256,7 +256,8 @@ int main(int argc, char* argv[])
 	while (!glfwWindowShouldClose(window)) {
 		processInput(window);
 		plane.updateState();
-		camera.SetPosition(plane.position + glm::vec3(-5.0f, 3.0f, 0.0f));
+		camera.updateCameraVectors(plane.yaw);
+		camera.updatePosition(plane.position);
 		view = camera.GetViewMatrix();
 		glfwPollEvents();
 		double now = glfwGetTime();
@@ -305,6 +306,7 @@ int main(int argc, char* argv[])
 		shader.setMatrix4("itM", inverseModelAvion);
         planeObj.draw();
 
+		
 		glDepthFunc(GL_LEQUAL);
 		//Use the shader for the cube map
 		cubeMapShader.use();
@@ -327,7 +329,7 @@ int main(int argc, char* argv[])
 		//Draw the cubemap
 		cubeMap.draw();
 
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		glDepthFunc(GL_LESS);
         
@@ -352,15 +354,15 @@ void processInput(GLFWwindow* window) {
 		glfwSetWindowShouldClose(window, true);
 
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		plane.processKeyboardMovement(LEFT, 0.1);
+		plane.processKeyboardMovement(LEFT, 0.2);
 
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		plane.processKeyboardMovement(RIGHT, 0.1);
+		plane.processKeyboardMovement(RIGHT, 0.2);
 
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		plane.processKeyboardMovement(UPWARD, 0.1);
+		plane.processKeyboardMovement(UPWARD, 0.2);
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		plane.processKeyboardMovement(DOWNWARD, 0.1);
+		plane.processKeyboardMovement(DOWNWARD, 0.2);
 
 	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
 		camera.ProcessKeyboardRotation(1, 0.0, 1);
