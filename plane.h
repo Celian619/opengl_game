@@ -76,16 +76,18 @@ public:
     /*
     p = pitch, y = yaw, r = roll
 
+    calculate with https://www.wolframalpha.com/input?i=matrix+multiplication+calculator
+
     roll: {{1,0,0},{0,cos(r),-sin(r)},{0,sin(r),cos(r)}}
 
     pitch: {{cos(p),sin(p),0},{-sin(p),cos(p),0},{0,0,1}}
 
     yaw: {{cos(y),0,sin(y)},{0,1,0},{-sin(y),0,cos(y)}}
 
-    pitch * yaw * roll:
-cos(p) cos(y)    | cos(p) sin(r) sin(y) + sin(p) cos(r) | cos(p) cos(r) sin(y) - sin(p) sin(r)
-sin(p) (-cos(y)) | cos(p) cos(r) - sin(p) sin(r) sin(y) | -sin(p) cos(r) sin(y) - cos(p) sin(r)
--sin(y)          | sin(r) cos(y)                        | cos(r) cos(y)
+    roll * pitch * yaw:
+(cos(p) cos(y) | sin(p) | cos(p) sin(y)
+sin(r) sin(y) - sin(p) cos(r) cos(y) | cos(p) cos(r) | sin(r) (-cos(y)) - sin(p) cos(r) sin(y)
+sin(p) sin(r) (-cos(y)) - cos(r) sin(y) | cos(p) sin(r) | cos(r) cos(y) - sin(p) sin(r) sin(y))
 
 */
     glm::mat4 getModelMatrix(){
@@ -99,10 +101,10 @@ sin(p) (-cos(y)) | cos(p) cos(r) - sin(p) sin(r) sin(y) | -sin(p) cos(r) sin(y) 
 
 
         float matrixArray[16] = {
-    cosp*cosy,   cosp*sinr*siny + sinp*cosr,   cosp*cosr*siny - sinp*sinr, 0,
-    -sinp*cosy,  cosp*cosr - sinp*sinr*siny,   -sinp*cosr*siny - cosp*sinr, 0,
-    -siny,                                     sinr*cosy, cosr*cosy,        0,
-    position.x,           position.y,                            position.z,                           1
+    cosp*cosy,    sinp,   cosp*siny , 0,
+    sinr*siny - sinp*cosr*cosy,  cosp*cosr,   -sinr*cosy -sinp*cosr*siny, 0,
+    -sinp*sinr*cosy-cosr*siny, cosp*sinr,  cosr*cosy-sinp*sinr*siny, 0,
+    position.x, position.y,position.z,       1
 };
 
         return glm::make_mat4(matrixArray);
@@ -127,14 +129,14 @@ private:
 
         glm::vec3 calcFront;
         calcFront.x = cosp*cosy;
-        calcFront.y = cosp*sinr*siny + sinp*cosr;
-        calcFront.z = cosp*cosr*siny - sinp*sinr;
+        calcFront.y = sinp;
+        calcFront.z = cosp*siny;
         this->front = glm::normalize(calcFront);
 
         glm::vec3 calcUp;
-        calcUp.x = -sinp*cosy;
-        calcUp.y = cosp*cosr - sinp*sinr*siny;
-        calcUp.z = -sinp*cosr*siny - cosp*sinr;
+        calcUp.x = sinr*siny - sinp*cosr*cosy;
+        calcUp.y = cosp*cosr;
+        calcUp.z = -sinr*cosy -sinp*cosr*siny;
         this->up = glm::normalize(calcUp);
     }
 };
