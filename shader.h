@@ -8,8 +8,7 @@
 #include <sstream>
 #include <iostream>
 
-class Shader
-{
+class Shader{
 public:
 	GLuint ID;
 
@@ -23,8 +22,7 @@ public:
         // ensure ifstream objects can throw exceptions:
         vShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
         fShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-        try
-        {
+        try{
             // open files
             vShaderFile.open(vertexPath);
             fShaderFile.open(fragmentPath);
@@ -38,9 +36,7 @@ public:
             // convert stream into string
             vertexCode = vShaderStream.str();
             fragmentCode = fShaderStream.str();
-        }
-        catch (std::ifstream::failure& e)
-        {
+        }catch (std::ifstream::failure& e){
             std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ: " << e.what() << std::endl;
         }
         const char* vShaderCode = vertexCode.c_str();

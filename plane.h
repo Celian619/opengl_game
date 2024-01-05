@@ -2,13 +2,14 @@
 #define PLANE_H
 
 #include <glm/glm.hpp>
+#include "particles.h"
 
 //Default plane values
-const float PLANE_YAW = 0.0f;
+const float PLANE_YAW = 70.0f;
 const float PLANE_PITCH = 0.0f;
-const float PLANE_SPEED = 0.1f;//TODO change speed when the rest is working
+const float PLANE_SPEED = 0.5f;
 const float PLANE_ROLL = 0.0f;
-
+const float SHOOTING_COOLDOWN = 0.1f;
 
 
 // Defines several possible options for plane movement. Used as abstraction to stay away from window-system specific input methods
@@ -21,7 +22,7 @@ enum movementDirection {
 
 class Plane {
 public:
-    // camera Attributes
+    Particles *particles;
     glm::vec3 position;
     glm::vec3 front;
     glm::vec3 up;
@@ -42,19 +43,20 @@ public:
 
 
  // processes input received from any keyboard-like input system. Accepts input parameter in the form of plane defined ENUM (to abstract it from windowing systems)
-    void processKeyboardMovement(movementDirection direction, float deltaTime){
-        if (direction == UPWARD){
-            pitch -= deltaTime;
-            //TODO
-        }else if (direction == DOWNWARD){
-            pitch += deltaTime;
-            //TODO
-        }else if (direction == LEFT){
-            roll += (deltaTime*2);
-            //TODO
-        }else if (direction == RIGHT){
-            roll -= (deltaTime*2);
-            //TODO
+    void processKeyboardMovement(movementDirection direction){
+        switch (direction){
+        case UPWARD:
+            pitch -= 0.2f;
+            break;
+        case DOWNWARD:
+            pitch += 0.2f;
+            break;
+        case LEFT:
+            roll += 0.4f;
+            break;
+        case RIGHT:
+            roll -= 0.4f;
+            break;
         }
 
         if (this->pitch > 89.0f)
@@ -68,20 +70,22 @@ public:
             this->roll = -89.0f;
     }
 
-    void updateState(){
+    void shoot(double time){
+        if(time - lastShoot > SHOOTING_COOLDOWN){
+            glm::vec3 positionCanon = glm::vec3(this->position) +  this->up * 1.0f + this->front; 
+            this->particles->addNew(glm::vec3(this->front), positionCanon, getModelMatrix());
 
-        if(pitch > 0){
-            pitch = std::max(0.0, pitch-0.05);
-        }else if(pitch < 0){
-            pitch = std::min(0.0, pitch+0.05);
+            lastShoot = time;
         }
+    }
 
-        if(roll > 0){
-            float delta = std::min(roll, 0.1f);
-            roll -= delta;
-            yaw -= delta;
-        }else if(roll < 0){
-            float delta = std::max(roll, -0.1f);
+    void updateState(){
+        //slowly go back to neutral position
+        if(pitch != 0)
+            pitch -= pitch/200;
+
+        if(roll != 0){
+            float delta = roll/200;
             roll -= delta;
             yaw -= delta;
         }
@@ -90,21 +94,21 @@ public:
         this->position += this->front * speed;
     }
 
+
     /*
+    The calculus to get the model matrix from the plane rotation angles:
     p = pitch, y = yaw, r = roll
 
     roll: {{1,0,0},{0,cos(r),-sin(r)},{0,sin(r),cos(r)}}
-
     pitch: {{cos(p),sin(p),0},{-sin(p),cos(p),0},{0,0,1}}
-
     yaw: {{cos(y),0,sin(y)},{0,1,0},{-sin(y),0,cos(y)}}
 
+    Combined rotation matrix:
     pitch * roll * yaw:
-(sin(p) sin(r) sin(y) + cos(p) cos(y) | sin(p) cos(r) | cos(p) sin(y) - sin(p) sin(r) cos(y)
-cos(p) sin(r) sin(y) - sin(p) cos(y) | cos(p) cos(r) | -cos(p) sin(r) cos(y) - sin(p) sin(y)
--cos(r) sin(y) | sin(r) | cos(r) cos(y))
-
-*/
+    sin(p) sin(r) sin(y) + cos(p) cos(y) | sin(p) cos(r) | cos(p) sin(y) - sin(p) sin(r) cos(y)
+    cos(p) sin(r) sin(y) - sin(p) cos(y) | cos(p) cos(r) | -cos(p) sin(r) cos(y) - sin(p) sin(y)
+    -cos(r) sin(y)                       | sin(r)        | cos(r) cos(y)
+    */
     glm::mat4 getModelMatrix(){
 
         float cosp = cos(glm::radians(pitch));
@@ -114,25 +118,23 @@ cos(p) sin(r) sin(y) - sin(p) cos(y) | cos(p) cos(r) | -cos(p) sin(r) cos(y) - s
         float siny = sin(glm::radians(yaw));
         float sinr = sin(glm::radians(roll));
 
-
         float matrixArray[16] = {
-    sinp*sinr*siny + cosp*cosy,  sinp*cosr ,  cosp*siny - sinp*sinr*cosy , 0,
-    cosp*sinr*siny - sinp*cosy,  cosp*cosr,  -cosp*sinr*cosy - sinp*siny , 0,
-    -cosr*siny, sinr ,           cosr*cosy,        0,
-    position.x,           position.y,                            position.z,                           1
-};
-
+            sinp*sinr*siny + cosp*cosy,  sinp*cosr,    cosp*siny - sinp*sinr*cosy,  0,
+            cosp*sinr*siny - sinp*cosy,  cosp*cosr,    -cosp*sinr*cosy - sinp*siny, 0,
+            -cosr*siny, sinr,            cosr*cosy,    0,
+            position.x,                  position.y,   position.z,                  1
+        };
         return glm::make_mat4(matrixArray);
     }
 
 
 private:
-    /* calculates the front vector from the Plane's (updated) Euler Angles
-        front: (1, 0, 0) => (cos(p) cos(y), cos(p) sin(r) sin(y) + sin(p) cos(r), cos(p) cos(r) sin(y) - sin(p) sin(r))
-         up: (0, 1, 0) => (sin(p) (-cos(y)), cos(p) cos(r) - sin(p) sin(r) sin(y), -sin(p) cos(r) sin(y) - cos(p) sin(r))
 
+    double lastShoot = 0;
+    /* calculates the front and up vectors using the same method than getModelMatrix
+        front: (1, 0, 0) => (cos(p) cos(y),    cos(p) sin(r) sin(y) + sin(p) cos(r),    cos(p) cos(r) sin(y) - sin(p) sin(r))
+        up: (0, 1, 0) => (sin(p) (-cos(y)),    cos(p) cos(r) - sin(p) sin(r) sin(y),    -sin(p) cos(r) sin(y) - cos(p) sin(r))
     */
-
     void updateFront()   {
         // calculate the new Front vector
         float cosp = cos(glm::radians(pitch));
