@@ -61,9 +61,9 @@ float getLavaFogFactor(){
 float getLavaAmbientLight(){
 	float delta = v_frag_coord.y - lavaTop;
 
-    if(delta < lavaLightHight){//pixel inside the fog
-		float attenuation = 1 / (1 + 0.1f * delta + 0.1f * delta * delta);
-		return 0.5f * attenuation;
+    if(delta < lavaLightHight){
+		float attenuation = 1 / (1 + 0.08f * delta + 0.1f * delta * delta);
+		return 0.7f * attenuation;
 	}
 	return 0.0f;
 }

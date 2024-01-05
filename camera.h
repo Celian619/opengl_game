@@ -11,7 +11,7 @@
 
 // Default camera values
 const float YAW = 0.0f;
-const float PITCH = -5.0f;
+const float PITCH = 7.0f;
 const float SPEED = 2.5f;
 const float SENSITIVITY = 0.1f;
 const float ZOOM = 7.0f;
@@ -87,16 +87,14 @@ public:
     }
 
     // processes input received from a mouse input system. Expects the offset value in both the x and y direction.
-    void ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch = true)
-    {
+    void ProcessMouseMovement(float xoffset, float yoffset, GLboolean constrainPitch = true){
         
 	    ProcessKeyboardRotation(xoffset, yoffset, constrainPitch);
     }
 
     // processes input received from a mouse scroll-wheel event. Only requires input on the vertical wheel-axis
-    void ProcessMouseScroll(float yoffset)
-    {
-        Zoom -= (float)yoffset;
+    void ProcessMouseScroll(float yoffset){
+        Zoom -= (float)yoffset / 3.0f;
         if (Zoom < 1.0f)
             Zoom = 1.0f;
         if (Zoom > 45.0f)

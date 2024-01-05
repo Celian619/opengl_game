@@ -15,7 +15,7 @@ uniform mat4 itM;
 uniform mat4 V; 
 uniform mat4 P; 
 
-const float fogDensity = 0.002f;
+const float fogDensity = 0.0012f;
 const float gradient = 1.0f;
 
 void main(){ 

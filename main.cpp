@@ -17,12 +17,12 @@
 #include "particles.h"
 
 Camera camera(glm::vec3(0.0, 2.0, 5.0));
-Plane plane(glm::vec3(-400.0f, 18.0f, -982.0f));
+Plane plane(glm::vec3(-400.0f, 12.0f, -982.0f));
 const int WINDOWS_WIDTH = 1000;
 const int WINDOWS_HEIGHT = 1000;
 double lastX = WINDOWS_WIDTH / 2.0;
 double lastY = WINDOWS_HEIGHT / 2.0;
-double sensibilityMouse = 0.5;
+double sensibilityMouse = 0.3;
 bool firstMouse = true;
 #include "callbacks.h" //those variables are used in callbacks
 
@@ -177,7 +177,7 @@ int main(int argc, char* argv[]){
 	glfwSetMouseButtonCallback(window, mouse_button_callback);
 
     bool lastFrameDay = true;
-    int timeSlowdown = 10;
+    int timeSlowdown = 20;
 
     double lastTime = glfwGetTime();
 	
