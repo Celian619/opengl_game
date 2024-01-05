@@ -35,8 +35,8 @@
 \textheight=9.0in
 \headsep=0.25in
 
-\title{ Assignment 1: Quickselect\\
-        \large Data structures and Algorithms (INFO-F413)}
+\title{ OpenGL project
+        \large Virtual Reality (INFO-H502)}
 \author{Célian Glénaz}
 \date{\today}
 
@@ -50,200 +50,15 @@
 
 %--Paper--
 
-\section{Expected number of comparisons}
+\section{Introduction}
 
-According to the proof from lectures, the expected number of comparisons $C(k,n)$ for selecting the \textit{k}th largest element among n (with $k \leq  n/2$) is:
-\newline
-
-$ C(k, n) = 2n + 2k \ln ( \frac{n - k}{k} ) + 2n \ln ( \frac{n}{n - k} ) $
-\newline
-
-It can be rewritten as
-\\
-
-$ C(k, n) = 2n \cdot ( 1 +  \frac{k}{n} \ln ( \frac{n - k}{k} ) +  \ln ( \frac{n}{n - k} )) $ \\
-$ = 2n \cdot ( 1 +  (\frac{k}{n} - 1) \ln ( n - k ) - \frac{k}{n}  \ln ( k ) + \ln(n))$ \\
-$ = 2n \cdot ( 1 - (  (1 - \frac{k}{n}) \ln ( n - k ) + \frac{k}{n}  \ln ( k ) + (\frac{k}{n} - \frac{k}{n} - 1)\ln(n)))$ \\
-$ = 2n \cdot ( 1 - (  (1 - \frac{k}{n}) \ln ( n - k ) + \frac{k}{n}  \ln ( k ) - (1 - \frac{k}{n})\ln(n)- (\frac{k}{n})\ln(n)))$ \\
-$ = 2n \cdot ( 1 - (  (1 - \frac{k}{n}) \ln ( \frac{n - k}{n} ) + \frac{k}{n}  \ln ( \frac{k}{n} )))$ \\
-$ = 2n \cdot ( 1 -   (1 - \frac{k}{n}) \ln ( 1 - \frac{k}{n} ) - \frac{k}{n}  \ln ( \frac{k}{n} ))$ \\
-$ = 2n \cdot ( 1 + h_{nat}(\frac{k}{n}))$  with $h_{nat}$ the entropy function with the natural scale (using ln). \\
-
-
-
-This function $h_{nat}(\frac{k}{n})$ is expressed in $nat$ but it is easier to give an interpretation of $h_{bit}(\frac{k}{n}) = h_{nat}(\frac{k}{n}) / \ln (2) $ which is the average number of bits of information given by a draw from a bernoulli variable with probability $ \frac{k}{n} $.
-
-
-
-\section{Quickselect in practice}
-
-My implementation of the Quickselect algorithm is in C and uses threads to shorten running time (Appendix \ref{appendix:quickselect}). 
-However python provide better graph libraries (matplotlib), so the results are exported to a file and then imported in the python script (Appendix \ref{appendix:graph}).
-
-In order to obtain a satisfying result, the quickselect function has to be executed multiple time (\textit{repeat\_count} = 1000) for any k value, with random values. The number of values (\textit{array\_len} = 100000) also need to be big enough. The problem is that as the size of the array increase, the number of different k values to test increase too. To keep convenient running time, the program take a parameter \textit{resolution} which is the interval between two values k that will be tested. 1000 is enough to have a nice result for an array size of 100000. 
-
-OpenMP is used to speed up the program (parallelisation) without complexifing too much the code.
-
-\newpage
-
-The result is the following graph:
-
-\hspace*{-50mm}
-\includegraphics[width=250mm]{quickselect.png}
-
-The mean is quite close to the expected value of $2n \cdot ( 1 + h_{nat}(\frac{k}{n}))$. About $50\%$ of the time the quickselect algorithm performs a number of comparisons in a $\pm 20\%$ range of the expected number of comparison. This result confirms the model, and also show that with random input the worst case for 1000 draw is approximatly two times the average and the best case around the half of the average.
-
-\newpage
 
 \appendix
-\section{Quickselect implementation in c}\label{appendix:quickselect}
+\section{First appendix}\label{appendix:appendA}
 
 \begin{lstlisting}
-#include <stdio.h> 
-#include <stdlib.h>
-#include <time.h>
-#include <omp.h>
 
-#define ARRAY_LEN 50000
-#define REPEAT_COUNT 1000
-#define RESOLUTION 500
 
-/*
-compile and run with
-> gcc -fopenmp quickselect-benchmark.c -O3
-> export OMP_NUM_THREADS=4
-> ./a.out
-*/
-
-void swap(unsigned int * e1, unsigned int * e2){
-    unsigned int tmp = *e1;
-    *e1 = *e2;
-    *e2 = tmp;
-}
-
-int partition(unsigned int * array, int left, int right, int pivotIdx, unsigned int * comparisonCounter){
-    unsigned int pivotVal = array[pivotIdx];
-    swap(array + pivotIdx, array + right);
-    int lowerIdx = left;
-    
-    for(int i = left; i < right; i++){
-        *comparisonCounter = *comparisonCounter + 1;
-        if(array[i] < pivotVal){
-            swap(array + lowerIdx, array + i);
-            lowerIdx ++;
-        }
-    }
-    swap(array + right, array + lowerIdx);
-    return lowerIdx;
-}
-
-//implementation of quickselect algorithm from https://en.wikipedia.org/wiki/Quickselect
-unsigned int selection(unsigned int * array, int left, int right, int k, unsigned int * comparisonCounter){
-    while(1){//avoid recursion overhead, end when return.
-        if(left == right)return array[left];
-        
-        int pivotIdx = left + (rand() % (right - left + 1));
-        pivotIdx = partition(array, left, right, pivotIdx, comparisonCounter);
-        
-        if(k == pivotIdx)
-            return array[k];
-        else if(k < pivotIdx)
-            right = pivotIdx - 1;
-        else
-            left = pivotIdx + 1;
-    }
-}
-
-void createRandArray(unsigned int array[ARRAY_LEN]){
-    for(int i =0; i < ARRAY_LEN; i++){
-    array[i] = rand();
-    }
-}
-        
-int main(){
-    FILE *fptr = fopen("result","w");
-    if(fptr == NULL)return 1;
-    
-    srand(time(NULL));
-    unsigned int array[ARRAY_LEN];
-    unsigned int results[REPEAT_COUNT];//store results to obtain later min/q1/mean/q2/max
-    
-    int progress = 0;
-    int endProgress = ARRAY_LEN/2 / RESOLUTION;
-    //Create different threads to speed up calculations
-    #pragma omp parallel private(results, array)
-    {
-    #pragma omp for
-    for(int k=0; k <= ARRAY_LEN/2 ; k += RESOLUTION){  
-        unsigned long mean = 0;    
-        for(int i = 0; i < REPEAT_COUNT; ++i){
-            createRandArray(array);
-            unsigned int comparisonCounter = 0;
-            selection(array, 0, ARRAY_LEN -1, k , &comparisonCounter);
-            results[i] = comparisonCounter;
-            mean += comparisonCounter;
-        }  
-        //write result to file
-        unsigned int cmp = 0;
-        unsigned int min = selection(results, 0, REPEAT_COUNT, 0, &cmp);
-        unsigned int max = selection(results, 0, REPEAT_COUNT, REPEAT_COUNT - 1, &cmp);
-        unsigned int q1 =  selection(results, 0, REPEAT_COUNT, REPEAT_COUNT / 4, &cmp);
-        unsigned int q2 =  selection(results, 0, REPEAT_COUNT, REPEAT_COUNT * 3 / 4, &cmp);
-        mean  = mean / REPEAT_COUNT;
-        #pragma omp critical
-        {
-        fprintf(fptr, "%d %ld %d %d %d %d\n", k , mean, min, max, q1, q2);
-        progress ++;
-        if(progress %10 == 0){
-            printf("Processed k values: %i / %i.\n", progress, endProgress);
-        }}     
-    }}
-    fclose(fptr);
-    return 0;
-}
-
-\end{lstlisting}
-
-\section{Graph plotting in python}\label{appendix:graph}
-
-\begin{lstlisting}
-import matplotlib.pyplot as plt
-import math
-
-result = open("result", "r")
-data = [line.split(" ")  for line in result.readlines()]
-
-def takeFirst(elem):
-    return int(elem[0])
-data.sort(key=takeFirst)
-
-#naming shortcuts
-x = [int(elem[0]) + 1 for elem in data] #add one because k begin at 0 in the C program
-y = [int(elem[1]) for elem in data]
-y_low = [int(elem[2]) for elem in data]
-y_high = [int(elem[3]) for elem in data]
-y1_low = [int(elem[4]) for elem in data]
-y1_high = [int(elem[5]) for elem in data]
-
-n = 50000
-expected = [2*n*(1-(1-k/n)*math.log(1-k/n) - k/n*math.log(k/n)) for k in x]
-# same result with this formula 2*n + 2*k*math.log((n/k -1)) + 2*n*math.log(n/(n-k))
-
-#make lots of line plots:
-plt.plot(x, y, color='red', marker='o', label='mean') 
-plt.plot(x, y_low, color='gray', linestyle='-', label='min') 
-plt.plot(x, y_high, color='gray', linestyle='-', label='max') 
-plt.plot(x, y1_low, color='blue', linestyle='-.', label='25th %') 
-plt.plot(x, y1_high, color='blue', linestyle='-.', label='75th %') 
-plt.plot(x, expected, color='green', linestyle='-.', label='Expected value') 
-plt.legend()
-#fill between the upper and lower bands
-plt.fill_between(x, y1_low, y1_high, alpha = .1,color = 'blue')
-#add background grid for visual appeal
-plt.grid(alpha = .2, which='both')
-plt.xlabel('k')
-plt.ylabel('number of comparisons')
-plt.show()
 \end{lstlisting}
 
 \end{document}
